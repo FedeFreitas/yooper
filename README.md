@@ -1,6 +1,6 @@
-# Yooper – Investment Goals API
+# Yooper - Investment Goals API
 
-API RESTful para criar, listar, atualizar e excluir metas de investimento, construída com Fastify + TypeScript e PostgreSQL.
+API RESTful para criar, listar, atualizar e excluir metas de investimento, construída com Fastify + TypeScript e PostgreSQL, organizada em uma estrutura MVC simples.
 
 ## Tecnologias
 - Node.js 20, Fastify 5, Zod, PostgreSQL 16
@@ -16,12 +16,12 @@ API RESTful para criar, listar, atualizar e excluir metas de investimento, const
 
 ## Como rodar com Docker
 - Subir tudo: `docker-compose up --build`.
-- Serviços: API em `http://localhost:3000`, Postgres em `localhost:5432` (user: postgres / senha: postgres / db: yooper). O script `db/init.sql` é executado automaticamente.
+- Servicos: API em `http://localhost:3000`, Postgres em `localhost:5432` (user: postgres / senha: postgres / db: yooper). O script `db/init.sql` e executado automaticamente.
 
 ## Endpoints principais
-- `GET /` — health check.
-- `GET /docs` — Swagger UI.
-- `POST /investment-goals` — cria meta.
+- `GET /` - health check.
+- `GET /docs` - Swagger UI.
+- `POST /investment-goals` - cria meta.
   - Body exemplo:
     ```json
     {
@@ -30,15 +30,18 @@ API RESTful para criar, listar, atualizar e excluir metas de investimento, const
       "value": 1500
     }
     ```
-- `GET /investment-goals` — lista metas (filtros `name`, `month`).
-- `GET /investment-goals/:id` — busca por id.
-- `PUT /investment-goals/:id` — atualiza tudo (recalcula `monthlyValue`).
-- `PATCH /investment-goals/:id` — atualiza parcial (recalcula se necessário).
-- `DELETE /investment-goals/:id` — remove meta.
+- `GET /investment-goals` - lista metas (filtros `name`, `month`).
+- `GET /investment-goals/:id` - busca por id.
+- `PUT /investment-goals/:id` - atualiza tudo (recalcula `monthlyValue`).
+- `PATCH /investment-goals/:id` - atualiza parcial (recalcula se necessario).
+- `DELETE /investment-goals/:id` - remove meta.
 
 ## Estrutura
 - `src/server.ts`: boot do Fastify, CORS, Swagger, health check.
-- `src/routes/investmentGoals.routes.ts`: rotas e validações.
+- `src/routes/investmentGoals.routes.ts`: definição das rotas e ligação com controllers.
+- `src/controllers/investmentGoalsController.ts`: regras de cada endpoint.
+- `src/models/investmentGoalModel.ts`: acesso ao Postgres e mapeamento das metas.
+- `src/schemas/investmentGoalSchemas.ts`: schemas Zod para validações e respostas.
 - `src/db.ts`: conexão com Postgres via `DATABASE_URL`.
 - `db/init.sql`: DDL e triggers de `investment_goals`.
 
@@ -47,5 +50,5 @@ API RESTful para criar, listar, atualizar e excluir metas de investimento, const
 - `npm run build`: compilação TypeScript.
 - `npm start`: executa build compilado.
 
-## Licença
+## Licenca
 ISC
