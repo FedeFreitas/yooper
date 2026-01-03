@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from "zod";
 import {
   createInvestmentGoal,
   deleteInvestmentGoal,
@@ -6,7 +6,7 @@ import {
   listInvestmentGoals,
   patchInvestmentGoal,
   updateInvestmentGoal,
-} from '../controllers/investmentGoalsController'
+} from "../controllers/investmentGoalsController";
 import {
   errorSchema,
   idParamSchema,
@@ -15,18 +15,18 @@ import {
   investmentGoalsListSchema,
   monthEnum,
   partialInvestmentGoalBodySchema,
-} from '../schemas/investmentGoalSchemas'
-import { FastifyTypedInstance } from '../types'
+} from "../schemas/investmentGoalSchemas";
+import { FastifyTypedInstance } from "../types";
 
 export async function investmentGoalsRoutes(app: FastifyTypedInstance) {
   app.post(
-    '/',
+    "/",
     {
       schema: {
         summary: "Criar meta de investimento",
-        tags: ['InvestmentGoals'],
+        tags: ["InvestmentGoals"],
         description:
-          "API RESTful para criar, listar, atualizar e excluir metas de investimento.",
+          "API RESTful para criação, listagem, atualização e exclusão de metas de investimento.",
         body: investmentGoalBodySchema,
         response: {
           201: investmentGoalResponseSchema,
@@ -35,17 +35,17 @@ export async function investmentGoalsRoutes(app: FastifyTypedInstance) {
         },
       },
     },
-    createInvestmentGoal,
-  )
+    createInvestmentGoal
+  );
 
   app.get(
-    '/',
+    "/",
     {
       schema: {
         summary: "Listar metas de investimento",
-        tags: ['InvestmentGoals'],
+        tags: ["InvestmentGoals"],
         description:
-          "Retorna metas de investimento com filtros opcionais por nome (contem) e mês (igual).",
+          "Retorna metas de investimento com filtros opcionais por nome (contém) e por mês (igual).",
         querystring: z.object({
           name: z.string().optional(),
           month: monthEnum.optional(),
@@ -56,16 +56,17 @@ export async function investmentGoalsRoutes(app: FastifyTypedInstance) {
         },
       },
     },
-    listInvestmentGoals,
-  )
+    listInvestmentGoals
+  );
 
   app.get(
-    '/:id',
+    "/:id",
     {
       schema: {
-        tags: ['InvestmentGoals'],
+        tags: ["InvestmentGoals"],
         summary: "Buscar meta por id",
-        description: "Retorna uma meta de investimento pelo identificador.",
+        description:
+          "Retorna uma meta de investimento com base no identificador informado.",
         params: idParamSchema,
         response: {
           200: investmentGoalResponseSchema,
@@ -74,17 +75,17 @@ export async function investmentGoalsRoutes(app: FastifyTypedInstance) {
         },
       },
     },
-    getInvestmentGoalById,
-  )
+    getInvestmentGoalById
+  );
 
   app.put(
-    '/:id',
+    "/:id",
     {
       schema: {
-        tags: ['InvestmentGoals'],
+        tags: ["InvestmentGoals"],
         summary: "Atualizar meta total",
         description:
-          "Atualiza todos os campos de uma meta de investimento e recalcula o valor por mês.",
+          "Atualiza todos os campos de uma meta de investimento e recalcula automaticamente o valor mensal.",
         params: idParamSchema,
         body: investmentGoalBodySchema,
         response: {
@@ -95,17 +96,17 @@ export async function investmentGoalsRoutes(app: FastifyTypedInstance) {
         },
       },
     },
-    updateInvestmentGoal,
-  )
+    updateInvestmentGoal
+  );
 
   app.patch(
-    '/:id',
+    "/:id",
     {
       schema: {
-        tags: ['InvestmentGoals'],
+        tags: ["InvestmentGoals"],
         summary: "Atualizar meta parcial",
         description:
-          "Atualiza parcialmente uma meta de investimento escolhendo somente um campo e caso necessá­rio recalcula o valor por mês.",
+          "Atualiza parcialmente uma meta de investimento, permitindo alterar apenas os campos informados e recalculando o valor mensal quando aplicável.",
         params: idParamSchema,
         body: partialInvestmentGoalBodySchema,
         response: {
@@ -116,16 +117,17 @@ export async function investmentGoalsRoutes(app: FastifyTypedInstance) {
         },
       },
     },
-    patchInvestmentGoal,
-  )
+    patchInvestmentGoal
+  );
 
   app.delete(
-    '/:id',
+    "/:id",
     {
       schema: {
-        tags: ['InvestmentGoals'],
+        tags: ["InvestmentGoals"],
         summary: "Excluir meta",
-        description: "Remove uma meta de investimento pelo identificador.",
+        description:
+          "Remove uma meta de investimento com base no identificador informado.",
         params: idParamSchema,
         response: {
           200: errorSchema,
@@ -134,6 +136,6 @@ export async function investmentGoalsRoutes(app: FastifyTypedInstance) {
         },
       },
     },
-    deleteInvestmentGoal,
-  )
+    deleteInvestmentGoal
+  );
 }
